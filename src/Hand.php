@@ -17,7 +17,7 @@ class Hand
     /**
      * 52枚のトランプを生成する。
      *
-     * @return void
+     * @return array trump
      */
     private function createTrump(): array
     {
@@ -27,6 +27,7 @@ class Hand
             $this->addCard(new Card("クラブ", $number));
             $this->addCard(new Card("ハート", $number));
         }
+        shuffle($this->trump);
         return $this->trump;
     }
 

@@ -15,6 +15,6 @@ class Dealer
     public function __construct()
     {
         $this->tranp = new Hand();
-        var_dump($this->tranp->gedCard());
+        print_r($this->tranp->gedCard());
     }
 }
