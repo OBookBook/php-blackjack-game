@@ -6,8 +6,8 @@ require_once 'src/Hand.php';
 require_once 'src/Player.php';
 
 // $card = new Card();
-// $dealer = new Dealer();
-$hand = new Hand();
+$dealer = new Dealer();
+// $hand = new Hand();
 // $player = new Player();
 
 // echo "ブラックジャックを開始します。" . PHP_EOL;

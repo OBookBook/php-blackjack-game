@@ -7,11 +7,14 @@ require_once 'Hand.php';
 class Dealer
 {
     /** トランプ */
-    private $tranp = [];
+    private Hand $tranp;
+
     /** 手札 */
-    private $hand = [];
+    private $myHand = [];
 
     public function __construct()
     {
+        $this->tranp = new Hand();
+        var_dump($this->tranp->gedCard());
     }
 }

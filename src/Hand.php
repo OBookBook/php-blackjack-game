@@ -19,7 +19,7 @@ class Hand
      *
      * @return void
      */
-    private function createTrump(): void
+    private function createTrump(): array
     {
         for ($number = 1; $number <= 13; $number++) {
             $this->addCard(new Card("スペード", $number));
@@ -27,7 +27,7 @@ class Hand
             $this->addCard(new Card("クラブ", $number));
             $this->addCard(new Card("ハート", $number));
         }
-        var_dump($this->trump);
+        return $this->trump;
     }
 
     /**
@@ -35,8 +35,18 @@ class Hand
      *
      * @param Card $trump 加えるカード
      */
-    private function addCard(Card $trump)
+    private function addCard(Card $trump): void
     {
         $this->trump[] = $trump;
+    }
+
+    /**
+     * 生成したトランプを返す。
+     *
+     * @return array $trump 生成したトランプ
+     */
+    public function gedCard(): array
+    {
+        return $this->trump;
     }
 }
