@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . '/../config/constants.php');
 require_once 'Card.php';
 
 /**
@@ -21,20 +22,56 @@ class Hand
      */
     private function createTrump(): array
     {
-        for ($number = 1; $number <= 13; $number++) {
-            $this->addCard(new Card("スペード", $number));
-            $this->addCard(new Card("ダイヤ", $number));
-            $this->addCard(new Card("クラブ", $number));
-            $this->addCard(new Card("ハート", $number));
+        for ($i = 1; $i <= 13; $i++) {
+            $this->addCard(new Card(SUIT_SPADE, $this->convertNumberToCardValue($i), $this->convertToCardScore($i)));
+            $this->addCard(new Card(SUIT_DIAMOND, $this->convertNumberToCardValue($i), $this->convertToCardScore($i)));
+            $this->addCard(new Card(SUIT_CLUB, $this->convertNumberToCardValue($i), $this->convertToCardScore($i)));
+            $this->addCard(new Card(SUIT_HEART, $this->convertNumberToCardValue($i), $this->convertToCardScore($i)));
         }
         shuffle($this->trump);
         return $this->trump;
     }
 
     /**
+     * トランプの数字をカードの値に変換します。
+     *
+     * @param int $number トランプの数字
+     * @return string カードの値（A、2、3、...、J、Q、K）
+     */
+    private function convertNumberToCardValue(int $number): string
+    {
+        if ($number == 1) {
+            return 'A';
+        } elseif ($number == 11) {
+            return 'J';
+        } elseif ($number == 12) {
+            return 'Q';
+        } elseif ($number == 13) {
+            return 'K';
+        }
+        return (string)$number;
+    }
+
+    /**
+     * トランプの数字をカードの得点に変換します。
+     *
+     * @param int $input トランプの数字
+     * @return int カードの得点（2 から 10 はそのまま、11 から 13 は 10）
+     */
+    private function convertToCardScore(int $input): int
+    {
+        if ($input >= 10) {
+            return 10;
+        } else {
+            return $input;
+        }
+    }
+
+    /**
      * カードを加える。
      *
-     * @param Card $trump 加えるカード
+     * @param Card $trump 生成したトランプ
+     * @return void
      */
     private function addCard(Card $trump): void
     {
@@ -46,8 +83,17 @@ class Hand
      *
      * @return array $trump 生成したトランプ
      */
-    public function gedCard(): array
+    public function getCard(): array
     {
         return $this->trump;
+    }
+    /**
+     * カードを詰め直す。
+     *
+     * @return void
+     */
+    public function setCard($cards): void
+    {
+        $this->trump = $cards;
     }
 }
