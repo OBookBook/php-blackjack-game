@@ -94,7 +94,6 @@ class Dealer
         // プレイヤーのカードの合計値が21(WINNING_SCORE)を超えたらプレイヤーの負け
         if (!($this->player->getScore() <= WINNING_SCORE)) {
             echo "あなたの得点は{$this->player->getScore()}です。" . PHP_EOL;
-            echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
             echo "あなたの負けです！" . PHP_EOL;
             echo "ブラックジャックを終了します。" . PHP_EOL;
             return;
@@ -110,6 +109,14 @@ class Dealer
         while ($this->getScore() <= DEALER_MAX_SCORE) {
             echo "ディーラーの現在の得点は{$this->getScore()}です。" . PHP_EOL;
             $this->drawCard($this, 1);
+        }
+
+        // ディーラーのカードの合計値が21(WINNING_SCORE)を超えたらプレイヤーの勝ち
+        if (!($this->getScore() <= WINNING_SCORE)) {
+            echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
+            echo "あなたの勝ちです！" . PHP_EOL;
+            echo "ブラックジャックを終了します。" . PHP_EOL;
+            return;
         }
     }
 
