@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  # db:
+  #   image: mysql:8.0
+  #   container_name: mysql-8.0
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: q7YQbtmA # rootユーザのパスワード
+  #     MYSQL_DATABASE: db_local # データベース名
+  #     MYSQL_USER: db_user # データベース接続ユーザ名
+  #     MYSQL_PASSWORD: N4mFMJTn # データベース接続パスワード
+  php:
+    # image: php:8.2-apache
+    build: ./
+    container_name: php8.2
+    volumes:
+      - ./php.ini:/usr/local/etc/php/php.ini
+      - ./:/var/www/html
+    ports:
+      - 9080:80
+    # depends_on:
+    #   - db # dbサービスが起動するのを待つ
+    # phpmyadmin:
+    #   image: phpmyadmin/phpmyadmin:latest
+    #   container_name: phpmyadmin
+    #   restart: always
+    #   depends_on:
+    #     - db # dbサービスが起動するのを待つ
+    #   ports:
+    #     - 9090:80
