@@ -52,13 +52,23 @@ class Dealer
     private function drawCard(object $obj, int $count): void
     {
         for ($i = 0; $i < $count; $i++) {
-            // デッキからカードを1枚抜いたので、デッキを1枚減らす
+            // デッキからカードを1枚抜いたので、デッキのカードを1枚減らす
             $decks = $this->deck->getCard();
             $drawnCard = array_shift($decks);
             $this->deck->setCard($decks);
-            // カードを配り現在の点数を集計
+            // カードを手札に加え、現在の点数を集計
             $obj->setCard($drawnCard);
-            $obj->setScore($drawnCard->getScore());
+            // NOTE:提出 QUESTステップ2 実装 Aを1点あるいは11点のどちらかで扱うようにプログラムを修正
+            if (!($drawnCard->getNumber() === "A")) {
+                $obj->setScore($drawnCard->getScore());
+            }
+            if ($drawnCard->getNumber() === "A") {
+                if (($obj->getScore() + 11) < 21) {
+                    $obj->setScore(11);
+                } else {
+                    $obj->setScore(1);
+                }
+            }
             if ($obj instanceof Player) {
                 echo "あなたの引いたカードは{$drawnCard->getSuit()}の{$drawnCard->getNumber()}です." . PHP_EOL;
             } else {
