@@ -1,46 +1,66 @@
 <?php
+require_once(__DIR__ . '/../config/constants.php');
 require_once(__DIR__ . '/Dealer.php');
 
 /**
  * プレイヤークラス
  */
-class Player
+abstract class Player
 {
     /** 手札 */
-    private array $myHand = [];
+    protected  array $myHand = [];
 
     /** 点数 */
-    private int $score = 0;
+    protected  int $score = 0;
 
+    /** 名前 */
+    protected  string $name;
 
+    /** ゲームの勝敗 */
+    protected  bool $roundResult = true;
+
+    /**
+     * コンストラクタ。
+     *
+     * @param string $name 名前
+     */
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
     /**
      * プレイヤーのターンを処理します。
      *
+     * @param Dealer $dealer
      * @return void
      */
     public function playerTurn(Dealer $dealer): void
     {
-        while ($this->getScore() <= WINNING_SCORE) {
-            echo "あなたの現在の得点は{$this->getScore()}です。カードを引きますか？（Y / N）";
-            $userInput = trim(fgets(STDIN));
-            echo  $userInput . PHP_EOL;
-            if ($userInput === 'Y' || $userInput === 'y') {
-                $dealer->drawCard($this, 1);
-            } elseif ($userInput === 'N' || $userInput === 'n') {
-                break;
-            } else {
-                echo "無効な値です。（Y / N）のどちらかを入力してください。" . PHP_EOL;
-            }
-        }
+        $this->drawCardOrQuit($dealer);
 
-        // プレイヤーのカードの合計値が21(WINNING_SCORE)を超えたらプレイヤーの負け
-        if (!($this->getScore() <= WINNING_SCORE)) {
-            echo "あなたの得点は{$this->getScore()}です。" . PHP_EOL;
-            echo "あなたの負けです！" . PHP_EOL;
+        // シングルプレイ用
+        if (count($dealer->getPlayer()) === SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
+            echo "{$this->getName()}の得点は{$this->getScore()}です。" . PHP_EOL;
+            echo "点数が21以上になった為、{$this->getName()}の負けです！" . PHP_EOL;
             echo "ブラックジャックを終了します。" . PHP_EOL;
             exit;
         }
+        // マルチプレイ用
+        if (count($dealer->getPlayer()) !== SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
+            echo "{$this->getName()}の得点は{$this->getScore()}です。" . PHP_EOL;
+            echo "点数が21以上になった為、{$this->getName()}は負けです！" . PHP_EOL;
+            $this->setRoundResult(false);
+        }
     }
+
+    /**
+     * カードを引く or 引かない を選択します。
+     *
+     * @param Dealer $dealer ディーラー。
+     *
+     * @return void
+     */
+    abstract protected function drawCardOrQuit(Dealer $dealer): void;
 
     /**
      * 手札を見る。
@@ -82,5 +102,36 @@ class Player
     public function setScore(int $score): void
     {
         $this->score += $score;
+    }
+
+    /**
+     * 自分の名前を返す。
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * ゲームの勝敗を返す。
+     *
+     * @return int
+     */
+    public function getRoundResult(): int
+    {
+        return $this->roundResult;
+    }
+
+    /**
+     * ゲームの勝敗を設定する。
+     *
+     * @param bool $result true|false
+     * @return void
+     */
+    public function setRoundResult(bool $result): void
+    {
+        $this->roundResult = $result;
     }
 }

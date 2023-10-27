@@ -1,4 +1,6 @@
 <?php
+// シングルゲームモード
+define('SINGLE_GAME_MODE', 1);
 // カードのスートを定義
 define('SUIT_SPADE', 'スペード');
 define('SUIT_DIAMOND', 'ダイヤ');
