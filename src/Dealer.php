@@ -11,20 +11,18 @@ class Dealer
     /** トランプ 山札デッキ */
     private Hand $deck;
 
-    /** 手札 */
+    /** ディーラーの手札 */
     private array $myHand = [];
-
-    /** プレイヤー */
-    private Player $player;
 
     /** 点数 */
     private int $score = 0;
 
-    public function __construct(Player $player)
+    /** プレイヤー */
+    private array $player = [];
+
+    public function __construct()
     {
         $this->deck = new Hand();
-        $this->player = $player;
-        $this->gameStart();
     }
 
     /**
@@ -32,12 +30,12 @@ class Dealer
      *
      * @return void
      */
-    private function gameStart(): void
+    public function gameStart(): void
     {
         echo "ブラックジャックを開始します。" . PHP_EOL;
-        $this->drawCard($this->player, 2);
+        $this->drawCard($this->player[0], 2);
         $this->drawCard($this, 2);
-        $this->player->playerTurn($this);
+        $this->player[0]->playerTurn($this);
         $this->dealerTurn();
         $this->gameResult();
     }
@@ -107,9 +105,9 @@ class Dealer
      */
     private function gameResult(): void
     {
-        echo "あなたの得点は{$this->player->getScore()}です。" . PHP_EOL;
+        echo "あなたの得点は{$this->player[0]->getScore()}です。" . PHP_EOL;
         echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
-        if (abs(WINNING_SCORE - $this->player->getScore()) < abs(WINNING_SCORE - $this->getScore())) {
+        if (abs(WINNING_SCORE - $this->player[0]->getScore()) < abs(WINNING_SCORE - $this->getScore())) {
             echo "あなたの勝ちです！" . PHP_EOL;
         } else {
             echo "ディーラーの勝ちです！" . PHP_EOL;
@@ -158,5 +156,26 @@ class Dealer
     public function setScore(int $score): void
     {
         $this->score += $score;
+    }
+
+    /**
+     * ゲームに参加しているプレイヤーを取得
+     *
+     * @return array
+     */
+    public function getPlayer(): array
+    {
+        return $this->player;
+    }
+
+    /**
+     * 手札を追加する。
+     *
+     * @param Player $player カードのスート
+     * @return void
+     */
+    public function setPlayer(Player $player): void
+    {
+        $this->player[] = $player;
     }
 }

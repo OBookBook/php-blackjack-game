@@ -12,10 +12,10 @@ class Player
     /** 点数 */
     private int $score = 0;
 
-
     /**
      * プレイヤーのターンを処理します。
      *
+     * @param Dealer $dealer
      * @return void
      */
     public function playerTurn(Dealer $dealer): void
