@@ -69,7 +69,7 @@ class Dealer
                 }
             }
             if ($obj instanceof Player) {
-                echo "あなたの引いたカードは{$drawnCard->getSuit()}の{$drawnCard->getNumber()}です." . PHP_EOL;
+                echo "{$obj->getName()}の引いたカードは{$drawnCard->getSuit()}の{$drawnCard->getNumber()}です." . PHP_EOL;
             } else {
                 if (count($obj->getCard()) !== DEALER_SECOND_CARD) {
                     echo "ディーラーの引いたカードは{$drawnCard->getSuit()}の{$drawnCard->getNumber()}です." . PHP_EOL;
@@ -94,7 +94,7 @@ class Dealer
         // ディーラーのカードの合計値が21(WINNING_SCORE)を超えたらプレイヤーの勝ち
         if (!($this->getScore() <= WINNING_SCORE)) {
             echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
-            echo "あなたの勝ちです！" . PHP_EOL;
+            echo "{$this->player[0]->getName()}の勝ちです！" . PHP_EOL;
             echo "ブラックジャックを終了します。" . PHP_EOL;
             exit;
         }
@@ -105,10 +105,10 @@ class Dealer
      */
     private function gameResult(): void
     {
-        echo "あなたの得点は{$this->player[0]->getScore()}です。" . PHP_EOL;
+        echo "{$this->player[0]->getName()}の得点は{$this->player[0]->getScore()}です。" . PHP_EOL;
         echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
         if (abs(WINNING_SCORE - $this->player[0]->getScore()) < abs(WINNING_SCORE - $this->getScore())) {
-            echo "あなたの勝ちです！" . PHP_EOL;
+            echo "{$this->player[0]->getName()}の勝ちです！" . PHP_EOL;
         } else {
             echo "ディーラーの勝ちです！" . PHP_EOL;
         }

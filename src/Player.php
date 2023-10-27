@@ -12,6 +12,18 @@ class Player
     /** 点数 */
     private int $score = 0;
 
+    /** 名前 */
+    private string $name;
+
+    /**
+     * コンストラクタ。
+     *
+     * @param string $name 名前
+     */
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
     /**
      * プレイヤーのターンを処理します。
      *
@@ -21,7 +33,7 @@ class Player
     public function playerTurn(Dealer $dealer): void
     {
         while ($this->getScore() <= WINNING_SCORE) {
-            echo "あなたの現在の得点は{$this->getScore()}です。カードを引きますか？（Y / N）";
+            echo "{$this->getName()}の現在の得点は{$this->getScore()}です。カードを引きますか？（Y / N）";
             $userInput = trim(fgets(STDIN));
             echo  $userInput . PHP_EOL;
             if ($userInput === 'Y' || $userInput === 'y') {
@@ -35,8 +47,8 @@ class Player
 
         // プレイヤーのカードの合計値が21(WINNING_SCORE)を超えたらプレイヤーの負け
         if (!($this->getScore() <= WINNING_SCORE)) {
-            echo "あなたの得点は{$this->getScore()}です。" . PHP_EOL;
-            echo "あなたの負けです！" . PHP_EOL;
+            echo "{$this->getName()}の得点は{$this->getScore()}です。" . PHP_EOL;
+            echo "{$this->getName()}の負けです！" . PHP_EOL;
             echo "ブラックジャックを終了します。" . PHP_EOL;
             exit;
         }
@@ -82,5 +94,15 @@ class Player
     public function setScore(int $score): void
     {
         $this->score += $score;
+    }
+
+    /**
+     * 自分の名前を返す。
+     *
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
     }
 }
