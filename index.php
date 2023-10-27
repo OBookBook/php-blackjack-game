@@ -1,5 +1,6 @@
 <?php
-require_once 'src/Dealer.php';
-require_once 'src/Player.php';
+require_once(__DIR__ . '/src/Dealer.php');
+require_once(__DIR__ . '/src/Player.php');
 
-new Dealer(new Player());
+$palyer = new Player();
+new Dealer($palyer);

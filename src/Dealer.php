@@ -1,6 +1,7 @@
 <?php
 require_once(__DIR__ . '/../config/constants.php');
 require_once(__DIR__ . '/Hand.php');
+require_once(__DIR__ . '/Player.php');
 
 /**
  * ディーラークラス
@@ -36,7 +37,7 @@ class Dealer
         echo "ブラックジャックを開始します。" . PHP_EOL;
         $this->drawCard($this->player, 2);
         $this->drawCard($this, 2);
-        $this->playerTurn();
+        $this->player->playerTurn($this);
         $this->dealerTurn();
         $this->gameResult();
     }
@@ -49,7 +50,7 @@ class Dealer
      * @param int $count ループ処理の実行回数
      * @return void
      */
-    private function drawCard(object $obj, int $count): void
+    public function drawCard(object $obj, int $count): void
     {
         for ($i = 0; $i < $count; $i++) {
             // デッキからカードを1枚抜いたので、デッキのカードを1枚減らす
@@ -82,35 +83,6 @@ class Dealer
     }
 
     /**
-     * プレイヤーのターンを処理します。
-     *
-     * @return void
-     */
-    private function playerTurn(): void
-    {
-        while ($this->player->getScore() <= WINNING_SCORE) {
-            echo "あなたの現在の得点は{$this->player->getScore()}です。カードを引きますか？（Y / N）";
-            $userInput = trim(fgets(STDIN));
-            echo  $userInput . PHP_EOL;
-            if ($userInput === 'Y' || $userInput === 'y') {
-                $this->drawCard($this->player, 1);
-            } elseif ($userInput === 'N' || $userInput === 'n') {
-                break;
-            } else {
-                echo "無効な値です。（Y / N）のどちらかを入力してください。" . PHP_EOL;
-            }
-        }
-
-        // プレイヤーのカードの合計値が21(WINNING_SCORE)を超えたらプレイヤーの負け
-        if (!($this->player->getScore() <= WINNING_SCORE)) {
-            echo "あなたの得点は{$this->player->getScore()}です。" . PHP_EOL;
-            echo "あなたの負けです！" . PHP_EOL;
-            echo "ブラックジャックを終了します。" . PHP_EOL;
-            return;
-        }
-    }
-
-    /**
      * ディーラーのターンを処理します。
      */
     private function dealerTurn(): void
@@ -126,7 +98,7 @@ class Dealer
             echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
             echo "あなたの勝ちです！" . PHP_EOL;
             echo "ブラックジャックを終了します。" . PHP_EOL;
-            return;
+            exit;
         }
     }
 
@@ -143,6 +115,7 @@ class Dealer
             echo "ディーラーの勝ちです！" . PHP_EOL;
         }
         echo "ブラックジャックを終了します。" . PHP_EOL;
+        exit;
     }
 
     /**
