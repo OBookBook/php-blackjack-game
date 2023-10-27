@@ -33,9 +33,12 @@ class Dealer
     public function gameStart(): void
     {
         echo "ブラックジャックを開始します。" . PHP_EOL;
-        $this->drawCard($this->player[0], 2);
-        $this->drawCard($this, 2);
-        $this->player[0]->playerTurn($this);
+
+        $this->drawCard($this->getPlayer(), 2);
+        $this->drawCard(array($this), 2);
+        for ($i = 0; $i < count($this->getPlayer()); $i++) {
+            $this->player[$i]->playerTurn($this);
+        }
         $this->dealerTurn();
         $this->gameResult();
     }
@@ -44,37 +47,39 @@ class Dealer
      * デッキからカードを引いてPlayerにカードを配る。
      * Playerに手札と点数を覚えさせる。
      *
-     * @param object $obj カードを配りたいオブジェクト
+     * @param array $obj カードを配りたいオブジェクト
      * @param int $count ループ処理の実行回数
      * @return void
      */
-    public function drawCard(object $obj, int $count): void
+    public function drawCard(array $obj, int $count): void
     {
-        for ($i = 0; $i < $count; $i++) {
-            // デッキからカードを1枚抜いたので、デッキのカードを1枚減らす
-            $decks = $this->deck->getCard();
-            $drawnCard = array_shift($decks);
-            $this->deck->setCard($decks);
-            // カードを手札に加え、現在の点数を集計
-            $obj->setCard($drawnCard);
-            // NOTE:提出 QUESTステップ2 実装 Aを1点あるいは11点のどちらかで扱うようにプログラムを修正
-            if (!($drawnCard->getNumber() === "A")) {
-                $obj->setScore($drawnCard->getScore());
-            }
-            if ($drawnCard->getNumber() === "A") {
-                if (($obj->getScore() + 11) < 21) {
-                    $obj->setScore(11);
-                } else {
-                    $obj->setScore(1);
+        for ($i = 0; $i < count($obj); $i++) {
+            for ($j = 0; $j < $count; $j++) {
+                // デッキからカードを1枚抜いたので、デッキのカードを1枚減らす
+                $decks = $this->deck->getCard();
+                $drawnCard = array_shift($decks);
+                $this->deck->setCard($decks);
+                // カードを手札に加え、現在の点数を集計
+                $obj[$i]->setCard($drawnCard);
+                // NOTE:提出 QUESTステップ2 実装 Aを1点あるいは11点のどちらかで扱うようにプログラムを修正
+                if (!($drawnCard->getNumber() === "A")) {
+                    $obj[$i]->setScore($drawnCard->getScore());
                 }
-            }
-            if ($obj instanceof Player) {
-                echo "{$obj->getName()}の引いたカードは{$drawnCard->getSuit()}の{$drawnCard->getNumber()}です." . PHP_EOL;
-            } else {
-                if (count($obj->getCard()) !== DEALER_SECOND_CARD) {
-                    echo "ディーラーの引いたカードは{$drawnCard->getSuit()}の{$drawnCard->getNumber()}です." . PHP_EOL;
+                if ($drawnCard->getNumber() === "A") {
+                    if (($obj[$i]->getScore() + 11) < 21) {
+                        $obj[$i]->setScore(11);
+                    } else {
+                        $obj[$i]->setScore(1);
+                    }
+                }
+                if ($obj[$i] instanceof Player) {
+                    echo "{$obj[$i]->getName()}の引いたカードは{$drawnCard->getSuit()}の{$drawnCard->getNumber()}です." . PHP_EOL;
                 } else {
-                    echo "ディーラーの引いた2枚目のカードはわかりません。" . PHP_EOL;
+                    if (count($obj[$i]->getCard()) !== DEALER_SECOND_CARD) {
+                        echo "ディーラー の引いたカードは{$drawnCard->getSuit()}の{$drawnCard->getNumber()}です." . PHP_EOL;
+                    } else {
+                        echo "ディーラー の引いた2枚目のカードはわかりません。" . PHP_EOL;
+                    }
                 }
             }
         }
@@ -82,19 +87,35 @@ class Dealer
 
     /**
      * ディーラーのターンを処理します。
+     *
+     * @return void
      */
     private function dealerTurn(): void
     {
-        echo "ディーラーの引いた2枚目のカードは{$this->myHand[1]->getSuit()}の{$this->myHand[1]->getNumber()}でした。" . PHP_EOL;
+        echo "ディーラー の引いた2枚目のカードは{$this->myHand[1]->getSuit()}の{$this->myHand[1]->getNumber()}でした。" . PHP_EOL;
         while ($this->getScore() <= DEALER_MAX_SCORE) {
-            echo "ディーラーの現在の得点は{$this->getScore()}です。" . PHP_EOL;
-            $this->drawCard($this, 1);
+            echo "ディーラー の現在の得点は{$this->getScore()}です。" . PHP_EOL;
+            $this->drawCard(array($this), 1);
         }
 
-        // ディーラーのカードの合計値が21(WINNING_SCORE)を超えたらプレイヤーの勝ち
-        if (!($this->getScore() <= WINNING_SCORE)) {
-            echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
+        // シングルプレイ用
+        if (count($this->getPlayer()) === SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
+            echo "ディーラー の得点は{$this->getScore()}です。" . PHP_EOL;
             echo "{$this->player[0]->getName()}の勝ちです！" . PHP_EOL;
+            echo "ブラックジャックを終了します。" . PHP_EOL;
+            exit;
+        }
+        // マルチプレイ用
+        if (count($this->getPlayer()) !== SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
+            echo "ディーラー の得点は{$this->getScore()}です。" . PHP_EOL;
+            echo "ディーラー の負けです。" . PHP_EOL;
+            // 勝利したプレイヤーを集計
+            $winningPlayers = array_filter($this->getPlayer(), function ($player) {
+                return $player->getRoundResult() == true;
+            });
+            foreach ($winningPlayers as $player) {
+                echo "{$player->getName()}の勝ちです！" . PHP_EOL;
+            }
             echo "ブラックジャックを終了します。" . PHP_EOL;
             exit;
         }
@@ -102,15 +123,23 @@ class Dealer
 
     /**
      * ゲーム結果を表示します。
+     *
+     * @return void
      */
     private function gameResult(): void
     {
-        echo "{$this->player[0]->getName()}の得点は{$this->player[0]->getScore()}です。" . PHP_EOL;
-        echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
-        if (abs(WINNING_SCORE - $this->player[0]->getScore()) < abs(WINNING_SCORE - $this->getScore())) {
-            echo "{$this->player[0]->getName()}の勝ちです！" . PHP_EOL;
-        } else {
-            echo "ディーラーの勝ちです！" . PHP_EOL;
+        // 勝利したプレイヤーを集計
+        $winningPlayers = array_filter($this->getPlayer(), function ($player) {
+            return $player->getRoundResult() == true;
+        });
+        foreach ($winningPlayers as $player) {
+            echo "{$player->getName()}の得点は{$player->getScore()}です。" . PHP_EOL;
+            echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
+            if (abs(WINNING_SCORE - $player->getScore()) < abs(WINNING_SCORE - $this->getScore())) {
+                echo "{$player->getName()}の勝ちです！" . PHP_EOL;
+            } else {
+                echo "ディーラーの勝ちです！" . PHP_EOL;
+            }
         }
         echo "ブラックジャックを終了します。" . PHP_EOL;
         exit;
