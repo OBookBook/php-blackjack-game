@@ -1,5 +1,6 @@
 <?php
 require_once(__DIR__ . '/../config/constants.php');
+require_once(__DIR__ . '/FundsManager.php');
 require_once(__DIR__ . '/Dealer.php');
 
 /**
@@ -19,6 +20,9 @@ abstract class Player
     /** ゲームの勝敗 */
     protected  bool $roundResult = true;
 
+    /** 資金 */
+    protected  int $funds = 1000;
+
     /**
      * コンストラクタ。
      *
@@ -27,7 +31,14 @@ abstract class Player
     public function __construct(string $name)
     {
         $this->name = $name;
+        if ($this instanceof HumanPlayer) {
+            $fundsManagerInstance = new FundsManager();
+            $this->funds = $fundsManagerInstance->getFunds();
+            $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() - BET_100);
+            echo "{$this->getName()}は100ベット支払いゲームに参加しました。残資金({$fundsManagerInstance->getFunds()})" . PHP_EOL;
+        }
     }
+
     /**
      * プレイヤーのターンを処理します。
      *
