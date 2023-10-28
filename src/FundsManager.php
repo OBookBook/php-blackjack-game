@@ -26,19 +26,19 @@ class FundsManager
     public function getFunds(): int
     {
         if (file_exists($this->filePath)) {
-            $scoreData = json_decode(file_get_contents($this->filePath), true);
-            return $scoreData["score"] ?? 0;
+            $fundsData = json_decode(file_get_contents($this->filePath), true);
+            return $fundsData["funds"] ?? 0;
         }
         return 0;
     }
 
     /**
      * ゲーム修了後 プレイヤーの資金を登録します。
-     * @param int $score 設定する資金
+     * @param int $funds 設定する資金
      */
-    public function setFunds(int $score): void
+    public function setFunds(int $funds): void
     {
-        $scoreData = ["score" => $score];
-        file_put_contents($this->filePath, json_encode($scoreData));
+        $fundsData = ["funds" => $funds];
+        file_put_contents($this->filePath, json_encode($fundsData));
     }
 }
