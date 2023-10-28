@@ -37,7 +37,6 @@ abstract class Player
         if ($this instanceof HumanPlayer) {
             $fundsManagerInstance = new FundsManager();
             $this->funds = $fundsManagerInstance->getFunds();
-            $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() - BET_100);
             echo "{$this->getName()}は100ベット支払いゲームに参加しました。残資金({$fundsManagerInstance->getFunds()})" . PHP_EOL;
         }
     }
@@ -103,6 +102,16 @@ abstract class Player
         $this->myHand[] = $tranp;
     }
 
+    /**
+     * 手札を入れ替える。
+     *
+     * @param  $tranp カードのスート
+     * @return void
+     */
+    public function setswapCard($tranp): void
+    {
+        $this->myHand = $tranp;
+    }
     /**
      * 点数を返す。
      *
