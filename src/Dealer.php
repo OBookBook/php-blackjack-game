@@ -98,13 +98,18 @@ class Dealer
             $this->drawCard(array($this), 1);
         }
 
+        // HACK: 冗長なコードがたくさん。後でリファクタリングする。
         // シングルプレイ用
         if (count($this->getPlayer()) === SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
             echo "ディーラー の得点は{$this->getScore()}です。" . PHP_EOL;
             echo "{$this->player[0]->getName()}の勝ちです！" . PHP_EOL;
+            $fundsManagerInstance = new FundsManager();
+            $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() + $this->player[0]->getBet());
+            echo "{$this->player[0]->getName()}は{$this->player[0]->getBet()}ベット勝ちました!! 総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
             echo "ブラックジャックを終了します。" . PHP_EOL;
             exit;
         }
+        // HACK: 冗長なコードがたくさん。後でリファクタリングする。
         // マルチプレイ用
         if (count($this->getPlayer()) !== SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
             echo "ディーラー の得点は{$this->getScore()}です。" . PHP_EOL;
@@ -115,6 +120,9 @@ class Dealer
             });
             foreach ($winningPlayers as $player) {
                 echo "{$player->getName()}の勝ちです！" . PHP_EOL;
+                $fundsManagerInstance = new FundsManager();
+                $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() + $player->getBet());
+                echo "{$player->getName()}は{$player->getBet()}ベット勝ちました!! 総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
             }
             echo "ブラックジャックを終了します。" . PHP_EOL;
             exit;
@@ -137,8 +145,14 @@ class Dealer
             echo "ディーラーの得点は{$this->getScore()}です。" . PHP_EOL;
             if (abs(WINNING_SCORE - $player->getScore()) < abs(WINNING_SCORE - $this->getScore())) {
                 echo "{$player->getName()}の勝ちです！" . PHP_EOL;
+                $fundsManagerInstance = new FundsManager();
+                $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() + $player->getBet());
+                echo "{$player->getName()}は{$player->getBet()}ベット勝ちました!! 総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
             } else {
                 echo "ディーラーの勝ちです！" . PHP_EOL;
+                $fundsManagerInstance = new FundsManager();
+                $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() - $player->getBet());
+                echo "{$player->getName()}は{$player->getBet()}ベット負けました。 総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
             }
         }
         echo "ブラックジャックを終了します。" . PHP_EOL;

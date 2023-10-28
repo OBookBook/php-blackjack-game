@@ -20,6 +20,9 @@ abstract class Player
     /** ゲームの勝敗 */
     protected  bool $roundResult = true;
 
+    /** ベット */
+    protected  int $bet = BET_100;
+
     /** 資金 */
     protected  int $funds = 1000;
 
@@ -51,15 +54,21 @@ abstract class Player
 
         // シングルプレイ用
         if (count($dealer->getPlayer()) === SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
+            $fundsManagerInstance = new FundsManager();
+            $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() - $this->getBet());
             echo "{$this->getName()}の得点は{$this->getScore()}です。" . PHP_EOL;
             echo "点数が21以上になった為、{$this->getName()}の負けです！" . PHP_EOL;
+            echo "{$this->getName()}は{$this->getBet()}失いました。総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
             echo "ブラックジャックを終了します。" . PHP_EOL;
             exit;
         }
         // マルチプレイ用
         if (count($dealer->getPlayer()) !== SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
+            $fundsManagerInstance = new FundsManager();
+            $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() - $this->getBet());
             echo "{$this->getName()}の得点は{$this->getScore()}です。" . PHP_EOL;
             echo "点数が21以上になった為、{$this->getName()}は負けです！" . PHP_EOL;
+            echo "{$this->getName()}は{$this->getBet()}失いました。総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
             $this->setRoundResult(false);
         }
     }
@@ -144,5 +153,26 @@ abstract class Player
     public function setRoundResult(bool $result): void
     {
         $this->roundResult = $result;
+    }
+
+    /**
+     * ベットする
+     *
+     * @param int $bet ベット
+     * @return void
+     */
+    public function setBet(int $bet): void
+    {
+        $this->bet += $bet;
+    }
+
+    /**
+     * ベットした金額を返す。
+     *
+     * @return int
+     */
+    public function getBet(): int
+    {
+        return $this->bet;
     }
 }
