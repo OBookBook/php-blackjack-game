@@ -32,7 +32,6 @@ class HumanPlayer extends Player
                 // NOTE:提出 QUESTステップ4 ダブルダウンを追加 1枚しかカードを引けない代わりに、最初に賭けたチップと同額を賭ける事が出来る。
                 $this->setBet(100);
                 $fundsManagerInstance = new FundsManager();
-                $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() - BET_100);
                 echo "{$this->getName()}はダブルダウンを宣言。追加で100ベットして現在({$this->getBet()}ベット)。残資金({$fundsManagerInstance->getFunds()})" .
                     PHP_EOL;
                 $dealer->drawCard(array($this), 1);
