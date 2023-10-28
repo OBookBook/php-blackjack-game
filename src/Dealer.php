@@ -33,8 +33,27 @@ class Dealer
     public function gameStart(): void
     {
         echo "ブラックジャックを開始します。" . PHP_EOL;
-
         $this->drawCard($this->getPlayer(), 2);
+
+        // HACK: 冗長なコード。後でリファクタリングする。
+        // NOTE:提出 QUESTステップ4 スプリットを追加 同じ数字が2枚揃った時100BET払い、分裂して2プレイ操作を可能とする。
+        foreach ($this->getPlayer() as $humanPlayer) {
+            if ($humanPlayer instanceof HumanPlayer) {
+                if ($humanPlayer->getCard()[0]->getNumber() === $humanPlayer->getCard()[1]->getNumber()) {
+                    echo "同じ数字が揃いました。スプリットしますか？（Y / N）";
+                    $userInput = trim(fgets(STDIN));
+                    echo  $userInput . PHP_EOL;
+                    if ($userInput === 'Y' || $userInput === 'y') {
+                        $humanPlayerHund = $humanPlayer->getCard();
+                        $drawnHund = array_shift($humanPlayerHund);
+                        $humanPlayer->setswapCard($humanPlayerHund);
+                        $newPlayer = new HumanPlayer("P)あなたの分身 ");
+                        $newPlayer->setCard($drawnHund);
+                        $this->setPlayer($newPlayer);
+                    }
+                }
+            }
+        }
         $this->drawCard(array($this), 2);
         for ($i = 0; $i < count($this->getPlayer()); $i++) {
             $this->player[$i]->playerTurn($this);
@@ -152,7 +171,7 @@ class Dealer
                 echo "ディーラーの勝ちです！" . PHP_EOL;
                 $fundsManagerInstance = new FundsManager();
                 $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() - $player->getBet());
-                echo "{$player->getName()}は{$player->getBet()}ベット負けました。 総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
+                echo "{$player->getName()}は{$player->getBet()}ベット失いました。 総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
             }
         }
         echo "ブラックジャックを終了します。" . PHP_EOL;

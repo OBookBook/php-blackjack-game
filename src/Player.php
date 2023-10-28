@@ -104,6 +104,16 @@ abstract class Player
     }
 
     /**
+     * 手札を入れ替える。
+     *
+     * @param  $tranp カードのスート
+     * @return void
+     */
+    public function setswapCard($tranp): void
+    {
+        $this->myHand = $tranp;
+    }
+    /**
      * 点数を返す。
      *
      * @return int
