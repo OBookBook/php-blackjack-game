@@ -1,6 +1,8 @@
 <?php
 // シングルゲームモード
 define('SINGLE_GAME_MODE', 1);
+// ゲーム参加を100ベットで固定
+define('BET_100', 100);
 // カードのスートを定義
 define('SUIT_SPADE', 'スペード');
 define('SUIT_DIAMOND', 'ダイヤ');
