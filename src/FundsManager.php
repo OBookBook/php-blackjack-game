@@ -6,7 +6,10 @@ require_once(__DIR__ . '/../config/constants.php');
  */
 class FundsManager
 {
-    private $filePath;
+    /**
+     * funds.jsonファイルのファイルパスを格納
+     */
+    private string $filePath;
 
     /**
      * FundsManager constructor.
