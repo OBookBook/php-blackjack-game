@@ -2,7 +2,7 @@
 require_once(__DIR__ . '/../config/constants.php');
 
 /**
- * ゲームのスコアを管理するクラスです。
+ * プレイヤーの資金を管理するクラスです。
  */
 class FundsManager
 {
@@ -17,10 +17,10 @@ class FundsManager
     }
 
     /**
-     * スコアを取得します。
-     * @return int スコア
+     * プレイヤーの資金を取得します。
+     * @return int プレイヤーの資金
      */
-    public function getMoney(): int
+    public function getFunds(): int
     {
         if (file_exists($this->filePath)) {
             $scoreData = json_decode(file_get_contents($this->filePath), true);
@@ -30,10 +30,10 @@ class FundsManager
     }
 
     /**
-     * スコアを設定します。
+     * ゲーム修了後 プレイヤーの資金を登録します。
      * @param int $score 設定する資金
      */
-    public function setMoney(int $score): void
+    public function setFunds(int $score): void
     {
         $scoreData = ["score" => $score];
         file_put_contents($this->filePath, json_encode($scoreData));
