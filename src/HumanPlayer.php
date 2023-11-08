@@ -13,11 +13,11 @@ class HumanPlayer extends Player
     /**
      * カードを引く or 引かない をプレイヤーが選択します。
      *
-     * @param Dealer $dealer ディーラー。
+     * @param GameMmaster $dealer ディーラー。
      *
      * @return void
      */
-    protected function drawCardOrQuit(Dealer $dealer): void
+    protected function drawCardOrQuit(GameMmaster $dealer): void
     {
         // HACK: 冗長なコードがたくさん。後でリファクタリングする。
         while ($this->getScore() <= WINNING_SCORE) {

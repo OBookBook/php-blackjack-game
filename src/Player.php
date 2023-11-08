@@ -44,10 +44,10 @@ abstract class Player
     /**
      * プレイヤーのターンを処理します。
      *
-     * @param Dealer $dealer
+     * @param GameMmaster $dealer
      * @return void
      */
-    public function playerTurn(Dealer $dealer): void
+    public function playerTurn(GameMmaster $dealer): void
     {
         $this->drawCardOrQuit($dealer);
 
@@ -75,11 +75,11 @@ abstract class Player
     /**
      * カードを引く or 引かない を選択します。
      *
-     * @param Dealer $dealer ディーラー。
+     * @param GameMmaster $dealer ディーラー。
      *
      * @return void
      */
-    abstract protected function drawCardOrQuit(Dealer $dealer): void;
+    abstract protected function drawCardOrQuit(GameMmaster $dealer): void;
 
     /**
      * 手札を見る。
@@ -97,7 +97,7 @@ abstract class Player
      * @param Card $tranp カードのスート
      * @return void
      */
-    public function setCard(Card $tranp): void
+    public function setCard(Trump $tranp): void
     {
         $this->myHand[] = $tranp;
     }

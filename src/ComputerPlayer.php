@@ -13,11 +13,11 @@ class ComputerPlayer extends Player
     /**
      * カードを引く or 引かない を自動選択します。
      *
-     * @param Dealer $dealer ディーラー。
+     * @param GameMmaster $dealer ディーラー。
      *
      * @return void
      */
-    protected function drawCardOrQuit(Dealer $dealer): void
+    protected function drawCardOrQuit(GameMmaster $dealer): void
     {
         echo "{$this->getName()}の現在の得点は{$this->getScore()}です。カードを引きますか？（Y / N）" . PHP_EOL;
 
