@@ -13,10 +13,6 @@ class Dealer
     /** 点数 */
     private int $score = 0;
 
-    public function __construct()
-    {
-    }
-
     /**
      * 手札を見る。
      *

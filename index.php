@@ -1,8 +1,7 @@
 <?php
-require_once(__DIR__ . '/src/Dealer.php');
+require_once(__DIR__ . '/src/GameMmaster.php');
 require_once(__DIR__ . '/src/HumanPlayer.php');
 require_once(__DIR__ . '/src/ComputerPlayer.php');
-require_once(__DIR__ . '/src/GameMmaster.php');
 
 $GameMmaster = new GameMmaster();
 
