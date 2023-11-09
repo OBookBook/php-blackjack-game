@@ -20,11 +20,14 @@ abstract class Player
     /** ゲームの勝敗 */
     protected  bool $roundResult = true;
 
+    /** サレンダー フラグ */
+    protected  bool $isSurrendered = false;
+
     /** ベット */
     protected  int $bet = BET_100;
 
     /** 資金 */
-    protected  int $funds = 1000;
+    protected  int $funds;
 
     /**
      * コンストラクタ。
@@ -44,30 +47,14 @@ abstract class Player
     /**
      * プレイヤーのターンを処理します。
      *
-     * @param Dealer $dealer
+     * @param GameMmaster $dealer
      * @return void
      */
-    public function playerTurn(Dealer $dealer): void
+    public function playerTurn(GameMmaster $dealer): void
     {
         $this->drawCardOrQuit($dealer);
 
-        // シングルプレイ用
-        if (count($dealer->getPlayer()) === SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
-            $fundsManagerInstance = new FundsManager();
-            $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() - $this->getBet());
-            echo "{$this->getName()}の得点は{$this->getScore()}です。" . PHP_EOL;
-            echo "点数が21以上になった為、{$this->getName()}の負けです！" . PHP_EOL;
-            echo "{$this->getName()}は{$this->getBet()}失いました。総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
-            echo "ブラックジャックを終了します。" . PHP_EOL;
-            exit;
-        }
-        // マルチプレイ用
-        if (count($dealer->getPlayer()) !== SINGLE_GAME_MODE && !($this->getScore() <= WINNING_SCORE)) {
-            $fundsManagerInstance = new FundsManager();
-            $fundsManagerInstance->setFunds($fundsManagerInstance->getFunds() - $this->getBet());
-            echo "{$this->getName()}の得点は{$this->getScore()}です。" . PHP_EOL;
-            echo "点数が21以上になった為、{$this->getName()}は負けです！" . PHP_EOL;
-            echo "{$this->getName()}は{$this->getBet()}失いました。総資金({$fundsManagerInstance->getFunds()})です。" . PHP_EOL;
+        if (!($this->getScore() <= WINNING_SCORE)) {
             $this->setRoundResult(false);
         }
     }
@@ -75,11 +62,11 @@ abstract class Player
     /**
      * カードを引く or 引かない を選択します。
      *
-     * @param Dealer $dealer ディーラー。
+     * @param GameMmaster $gameMmaster
      *
      * @return void
      */
-    abstract protected function drawCardOrQuit(Dealer $dealer): void;
+    abstract protected function drawCardOrQuit(GameMmaster $gameMmaster): void;
 
     /**
      * 手札を見る。
@@ -97,7 +84,7 @@ abstract class Player
      * @param Card $tranp カードのスート
      * @return void
      */
-    public function setCard(Card $tranp): void
+    public function setCard(Trump $tranp): void
     {
         $this->myHand[] = $tranp;
     }
@@ -108,7 +95,7 @@ abstract class Player
      * @param  $tranp カードのスート
      * @return void
      */
-    public function setswapCard($tranp): void
+    public function setSwapCard($tranp): void
     {
         $this->myHand = $tranp;
     }
@@ -162,6 +149,16 @@ abstract class Player
     public function setRoundResult(bool $result): void
     {
         $this->roundResult = $result;
+    }
+
+    public function getIsSurrendered(): int
+    {
+        return $this->isSurrendered;
+    }
+
+    public function setIsSurrendered(bool $result): void
+    {
+        $this->isSurrendered = $result;
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
 
 /**
- * トランプを生成する為のカードクラス
+ * トランプを生成する為のカードの雛形
  */
-class Card
+class Trump
 {
     /** カードのスート */
     private string $suit;
