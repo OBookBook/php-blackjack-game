@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__ . '/Player.php');
+
+namespace BlackJackGame;
 
 /**
  * ゲーム操作可能なプレイヤー

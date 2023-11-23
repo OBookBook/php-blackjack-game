@@ -1,5 +1,7 @@
 <?php
 
+namespace BlackJackGame;
+
 /**
  * ゲームで実際に使用しているデッキ
  */
@@ -10,9 +12,9 @@ class PlayingGameDeck
 
     public function __construct($playing_deck)
     {
-        if (!is_array($playing_deck)) {
-            throw new InvalidArgumentException("配列を指定してください。");
-        }
+        // if (!is_array($playing_deck)) {
+        //     throw new InvalidArgumentException("配列を指定してください。");
+        // }
 
         $this->deck = $playing_deck;
     }
@@ -24,9 +26,9 @@ class PlayingGameDeck
 
     public function setCard($playing_deck)
     {
-        if (!is_array($playing_deck)) {
-            throw new InvalidArgumentException("配列を指定してください。");
-        }
+        // if (!is_array($playing_deck)) {
+        //     throw new InvalidArgumentException("配列を指定してください。");
+        // }
 
         return new PlayingGameDeck($playing_deck);
     }

@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__ . '/HumanPlayer.php');
+
+namespace BlackJackGame;
 
 class CheckSplitPlayer
 {

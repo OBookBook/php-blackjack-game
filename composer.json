@@ -1,0 +1,11 @@
+{
+  "autoload": {
+    "files": [
+      "config/constants.php",
+      "config/config.php"
+    ],
+    "psr-4": {
+      "BlackJackGame\\": "src/"
+    }
+  }
+}
