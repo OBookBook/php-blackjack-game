@@ -4,7 +4,10 @@ namespace BlackJackGame;
 
 require_once "./vendor/autoload.php";
 
-$GameMmaster = new GameMmaster();
+$deckInstance = new Deck();
+$deck = $deckInstance->create();
+
+$GameMmaster = new GameMmaster($deck);
 
 $palyer = new HumanPlayer("あなた ");
 $GameMmaster->setPlayer($palyer);

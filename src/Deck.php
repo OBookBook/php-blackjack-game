@@ -2,36 +2,25 @@
 
 namespace BlackJackGame;
 
-class CreateTrump
+class Deck
 {
     private array  $trump = [];
 
     /**
      * 52枚のトランプを生成する。
      *
-     * @return array trump
+     * @return array deck
      */
     public function create(): array
     {
         for ($i = 1; $i <= 13; $i++) {
-            $this->addTrump(new Trump(SUIT_SPADE, $this->convertNumberToCardValue($i), $this->convertToCardScore($i)));
-            $this->addTrump(new Trump(SUIT_DIAMOND, $this->convertNumberToCardValue($i), $this->convertToCardScore($i)));
-            $this->addTrump(new Trump(SUIT_CLUB, $this->convertNumberToCardValue($i), $this->convertToCardScore($i)));
-            $this->addTrump(new Trump(SUIT_HEART, $this->convertNumberToCardValue($i), $this->convertToCardScore($i)));
+            $this->trump[] = new Trump(SUIT_SPADE, $this->convertNumberToCardValue($i), $this->convertToCardScore($i));
+            $this->trump[] = new Trump(SUIT_DIAMOND, $this->convertNumberToCardValue($i), $this->convertToCardScore($i));
+            $this->trump[] = new Trump(SUIT_CLUB, $this->convertNumberToCardValue($i), $this->convertToCardScore($i));
+            $this->trump[] = new Trump(SUIT_HEART, $this->convertNumberToCardValue($i), $this->convertToCardScore($i));
         }
         shuffle($this->trump);
         return $this->trump;
-    }
-
-    /**
-     * カードを加える。
-     *
-     * @param Trump $trump 生成したトランプ
-     * @return void
-     */
-    private function addTrump(Trump $trump): void
-    {
-        $this->trump[] = $trump;
     }
 
     /**

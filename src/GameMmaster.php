@@ -5,7 +5,7 @@ namespace BlackJackGame;
 class GameMmaster
 {
     /** デッキ(山札) */
-    private PlayingGameDeck $playingGameDeck;
+    private array $deck = [];
 
     /** プレイヤー */
     private array $players = [];
@@ -13,10 +13,9 @@ class GameMmaster
     /** ディーラー */
     private Dealer $dealer;
 
-    public function __construct()
+    public function __construct($deckInstance)
     {
-        $created_deck = (new CreateTrump())->create();
-        $this->playingGameDeck = new PlayingGameDeck($created_deck);
+        $this->deck = $deckInstance;
         $this->dealer = new Dealer();
     }
 
@@ -30,7 +29,7 @@ class GameMmaster
         echo "ブラックジャックを開始します。" . PHP_EOL;
         $this->drawCard($this->players, 2);
         // NOTE:提出 QUESTステップ4 スプリットを追加 同じ数字が2枚揃った時100BET払い、分裂して2プレイ操作を可能とする。
-        new CheckSplitPlayer($this->players, $this);
+        new SplitChecker($this->players, $this);
         $this->drawCard(array($this->dealer), 2);
         $this->playerTurns();
         $this->dealerTurn();
@@ -41,10 +40,7 @@ class GameMmaster
     {
         foreach ($players as $player) {
             for ($j = 0; $j < $count; $j++) {
-                // デッキからカードを1枚抜いたので、デッキのカードを1枚減らす
-                $decks = $this->playingGameDeck->getCard();
-                $drawnCard = array_shift($decks);
-                $this->playingGameDeck = $this->playingGameDeck->setCard($decks);
+                $drawnCard = array_shift($this->deck);
                 // デッキから引いたカードを配る
                 $player->setCard($drawnCard);
                 // カードのスコアから自分の点数を加算

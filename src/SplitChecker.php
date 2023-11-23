@@ -2,14 +2,14 @@
 
 namespace BlackJackGame;
 
-class CheckSplitPlayer
+class SplitChecker
 {
     public function __construct($players, $gameManager)
     {
-        $this->checkSplitPlayer($players, $gameManager);
+        $this->check($players, $gameManager);
     }
 
-    private function checkSplitPlayer($players, $gameManager)
+    private function check($players, $gameManager)
     {
         foreach ($players as $humanPlayer) {
             if (!($humanPlayer instanceof HumanPlayer)) {
