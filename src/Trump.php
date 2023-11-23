@@ -1,5 +1,7 @@
 <?php
 
+namespace BlackJackGame;
+
 /**
  * トランプを生成する為のカードの雛形
  */

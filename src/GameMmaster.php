@@ -1,8 +1,6 @@
 <?php
-require_once(__DIR__ . '/CreateTrump.php');
-require_once(__DIR__ . '/PlayingGameDeck.php');
-require_once(__DIR__ . '/GameResult.php');
-require_once(__DIR__ . '/CheckSplitPlayer.php');
+
+namespace BlackJackGame;
 
 class GameMmaster
 {

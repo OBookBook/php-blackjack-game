@@ -1,7 +1,8 @@
 <?php
-require_once(__DIR__ . '/src/GameMmaster.php');
-require_once(__DIR__ . '/src/HumanPlayer.php');
-require_once(__DIR__ . '/src/ComputerPlayer.php');
+
+namespace BlackJackGame;
+
+require_once "./vendor/autoload.php";
 
 $GameMmaster = new GameMmaster();
 

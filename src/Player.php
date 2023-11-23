@@ -1,7 +1,6 @@
 <?php
-require_once(__DIR__ . '/../config/constants.php');
-require_once(__DIR__ . '/FundsManager.php');
-require_once(__DIR__ . '/Dealer.php');
+
+namespace BlackJackGame;
 
 /**
  * プレイヤークラス

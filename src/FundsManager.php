@@ -1,5 +1,6 @@
 <?php
-require_once(__DIR__ . '/../config/config.php');
+
+namespace BlackJackGame;
 
 /**
  * プレイヤーの資金を管理するクラスです。
