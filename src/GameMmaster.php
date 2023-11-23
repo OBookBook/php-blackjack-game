@@ -5,7 +5,7 @@ namespace BlackJackGame;
 class GameMmaster
 {
     /** デッキ(山札) */
-    private PlayingGameDeck $playingGameDeck;
+    private array $deck = [];
 
     /** プレイヤー */
     private array $players = [];
@@ -13,10 +13,9 @@ class GameMmaster
     /** ディーラー */
     private Dealer $dealer;
 
-    public function __construct()
+    public function __construct($deckInstance)
     {
-        $created_deck = (new CreateTrump())->create();
-        $this->playingGameDeck = new PlayingGameDeck($created_deck);
+        $this->deck = $deckInstance;
         $this->dealer = new Dealer();
     }
 
@@ -41,10 +40,7 @@ class GameMmaster
     {
         foreach ($players as $player) {
             for ($j = 0; $j < $count; $j++) {
-                // デッキからカードを1枚抜いたので、デッキのカードを1枚減らす
-                $decks = $this->playingGameDeck->getCard();
-                $drawnCard = array_shift($decks);
-                $this->playingGameDeck = $this->playingGameDeck->setCard($decks);
+                $drawnCard = array_shift($this->deck);
                 // デッキから引いたカードを配る
                 $player->setCard($drawnCard);
                 // カードのスコアから自分の点数を加算
