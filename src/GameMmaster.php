@@ -29,7 +29,7 @@ class GameMmaster
         echo "ブラックジャックを開始します。" . PHP_EOL;
         $this->drawCard($this->players, 2);
         // NOTE:提出 QUESTステップ4 スプリットを追加 同じ数字が2枚揃った時100BET払い、分裂して2プレイ操作を可能とする。
-        new CheckSplitPlayer($this->players, $this);
+        new SplitChecker($this->players, $this);
         $this->drawCard(array($this->dealer), 2);
         $this->playerTurns();
         $this->dealerTurn();
