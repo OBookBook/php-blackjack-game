@@ -1,9 +1,10 @@
 version: "3.7"
 services:
   php:
-    image: php:8.2-apache
+    build: ./
     container_name: php-blackjack-game
     volumes:
+      - ./php.ini:/usr/local/etc/php/php.ini
       - ./:/var/www/html
     ports:
       - 9080:80
