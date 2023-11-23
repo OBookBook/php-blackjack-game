@@ -57,9 +57,4 @@ class Deck
             return $input;
         }
     }
-
-    public function getCard(): array
-    {
-        return $this->trump;
-    }
 }
