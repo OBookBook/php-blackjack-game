@@ -1,6 +1,6 @@
 <?php
 
-namespace BlackJackGame;
+namespace BlackJack;
 
 class GameMmaster
 {
@@ -13,9 +13,9 @@ class GameMmaster
     /** ディーラー */
     private Dealer $dealer;
 
-    public function __construct($deckInstance)
+    public function __construct($deck)
     {
-        $this->deck = $deckInstance;
+        $this->deck = $deck;
         $this->dealer = new Dealer();
     }
 

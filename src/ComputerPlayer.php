@@ -1,6 +1,6 @@
 <?php
 
-namespace BlackJackGame;
+namespace BlackJack;
 
 /**
  * コンピュータのプレイヤー

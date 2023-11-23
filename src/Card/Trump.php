@@ -1,6 +1,6 @@
 <?php
 
-namespace BlackJackGame;
+namespace BlackJack\Card;
 
 /**
  * トランプを生成する為のカードの雛形

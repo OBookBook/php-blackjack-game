@@ -1,6 +1,8 @@
 <?php
 
-namespace BlackJackGame;
+namespace BlackJack;
+
+use BlackJack\Card\Trump;
 
 /**
  * プレイヤークラス
