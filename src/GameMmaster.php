@@ -13,6 +13,8 @@ class GameMmaster
     /** ディーラー */
     private Dealer $dealer;
 
+    private FundsManager $fundsManager = new FundsManager();
+
     public function __construct($deck)
     {
         $this->deck = $deck;
@@ -33,7 +35,7 @@ class GameMmaster
         $this->drawCard(array($this->dealer), 2);
         $this->playerTurns();
         $this->dealerTurn();
-        new GameResult($this->players, $this->dealer);
+        new GameResult($this->players, $this->dealer, $this->fundsManager);
     }
 
     public function drawCard($players, $count): void
