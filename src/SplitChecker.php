@@ -9,12 +9,13 @@ class SplitChecker
         $this->check($players, $gameManager);
     }
 
-    private function check($players, $gameManager)
+    static function check($players, $gameManager)
     {
         foreach ($players as $humanPlayer) {
             if (!($humanPlayer instanceof HumanPlayer)) continue;
             if (!($humanPlayer->getCard()[0]->getNumber() === $humanPlayer->getCard()[1]->getNumber())) continue;
-            if ($this->askForSplitChoice() !== 'y') continue;
+            if (SplitChecker::askForSplitChoice() !== 'y') continue;
+
             $humanPlayerHund = $humanPlayer->getCard();
             $drawnHund = array_shift($humanPlayerHund);
             $humanPlayer->setSwapCard($humanPlayerHund);
@@ -24,7 +25,7 @@ class SplitChecker
         }
     }
 
-    private function askForSplitChoice(): string
+    static function askForSplitChoice(): string
     {
         echo "同じ数字が揃いました。スプリットしますか？（Y / N）";
         $userInput = strtolower(trim(fgets(STDIN)));

@@ -13,11 +13,12 @@ class GameMmaster
     /** ディーラー */
     private Dealer $dealer;
 
-    private FundsManager $fundsManager = new FundsManager();
+    private FundsManager $fundsManager;
 
-    public function __construct($deck)
+    public function __construct($deck, $fundsManager)
     {
         $this->deck = $deck;
+        $this->fundsManager = $fundsManager;
         $this->dealer = new Dealer();
     }
 
@@ -30,12 +31,11 @@ class GameMmaster
     {
         echo "ブラックジャックを開始します。" . PHP_EOL;
         $this->drawCard($this->players, 2);
-        // NOTE:提出 QUESTステップ4 スプリットを追加 同じ数字が2枚揃った時100BET払い、分裂して2プレイ操作を可能とする。
-        new SplitChecker($this->players, $this);
+        SplitChecker::check($this->players, $this);
         $this->drawCard(array($this->dealer), 2);
         $this->playerTurns();
         $this->dealerTurn();
-        new GameResult($this->players, $this->dealer, $this->fundsManager);
+        GameResult::result($this->players, $this->dealer, $this->fundsManager);
     }
 
     public function drawCard($players, $count): void

@@ -4,8 +4,8 @@ require_once "./vendor/autoload.php";
 
 $deckInstance = new BlackJack\Card\Deck();
 $deck = $deckInstance->create();
-
-$GameMmaster = new BlackJack\GameMmaster($deck);
+$fundsManagerInstance = new BlackJack\FundsManager();
+$GameMmaster = new BlackJack\GameMmaster($deck, $fundsManagerInstance);
 
 $palyer = new BlackJack\HumanPlayer("あなた ");
 $GameMmaster->setPlayer($palyer);
