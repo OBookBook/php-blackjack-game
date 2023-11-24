@@ -5,7 +5,8 @@
       "config/config.php"
     ],
     "psr-4": {
-      "BlackJackGame\\": "src/"
+      "BlackJack\\": "src/",
+      "BlackJack\\Card\\": "src/Card/"
     }
   }
 }

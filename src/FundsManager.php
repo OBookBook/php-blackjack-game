@@ -1,6 +1,6 @@
 <?php
 
-namespace BlackJackGame;
+namespace BlackJack;
 
 /**
  * プレイヤーの資金を管理するクラスです。

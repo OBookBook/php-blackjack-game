@@ -1,6 +1,6 @@
 <?php
 
-namespace BlackJackGame;
+namespace BlackJack;
 
 /**
  * ゲーム操作可能なプレイヤー

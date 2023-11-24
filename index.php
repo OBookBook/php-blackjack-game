@@ -1,21 +1,19 @@
 <?php
 
-namespace BlackJackGame;
-
 require_once "./vendor/autoload.php";
 
-$deckInstance = new Deck();
+$deckInstance = new BlackJack\Card\Deck();
 $deck = $deckInstance->create();
+$fundsManagerInstance = new BlackJack\FundsManager();
+$GameMmaster = new BlackJack\GameMmaster($deck, $fundsManagerInstance);
 
-$GameMmaster = new GameMmaster($deck);
-
-$palyer = new HumanPlayer("あなた ");
+$palyer = new BlackJack\HumanPlayer("あなた ");
 $GameMmaster->setPlayer($palyer);
 
-$cpu1 = new ComputerPlayer("コンピューター A ");
+$cpu1 = new BlackJack\ComputerPlayer("コンピューター A ");
 $GameMmaster->setPlayer($cpu1);
 
-$cpu2 = new ComputerPlayer("コンピューター B ");
+$cpu2 = new BlackJack\ComputerPlayer("コンピューター B ");
 $GameMmaster->setPlayer($cpu2);
 
 $GameMmaster->gameStart();

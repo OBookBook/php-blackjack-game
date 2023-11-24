@@ -1,6 +1,6 @@
 <?php
 
-namespace BlackJackGame;
+namespace BlackJack;
 
 class SplitChecker
 {
@@ -9,31 +9,26 @@ class SplitChecker
         $this->check($players, $gameManager);
     }
 
-    private function check($players, $gameManager)
+    static function check($players, $gameManager)
     {
         foreach ($players as $humanPlayer) {
-            if (!($humanPlayer instanceof HumanPlayer)) {
-                continue;
-            }
-            if (!($humanPlayer->getCard()[0]->getNumber() === $humanPlayer->getCard()[1]->getNumber())) {
-                continue;
-            }
-            $userInput = $this->askForSplitChoice();
-            if ($userInput === 'Y' || $userInput === 'y') {
-                $humanPlayerHund = $humanPlayer->getCard();
-                $drawnHund = array_shift($humanPlayerHund);
-                $humanPlayer->setSwapCard($humanPlayerHund);
-                $newPlayer = new HumanPlayer("P)あなたの分身 ");
-                $newPlayer->setCard($drawnHund);
-                $gameManager->setPlayer($newPlayer);
-            }
+            if (!($humanPlayer instanceof HumanPlayer)) continue;
+            if (!($humanPlayer->getCard()[0]->getNumber() === $humanPlayer->getCard()[1]->getNumber())) continue;
+            if (SplitChecker::askForSplitChoice() !== 'y') continue;
+
+            $humanPlayerHund = $humanPlayer->getCard();
+            $drawnHund = array_shift($humanPlayerHund);
+            $humanPlayer->setSwapCard($humanPlayerHund);
+            $newPlayer = new HumanPlayer("P)あなたの分身 ");
+            $newPlayer->setCard($drawnHund);
+            $gameManager->setPlayer($newPlayer);
         }
     }
 
-    private function askForSplitChoice(): string
+    static function askForSplitChoice(): string
     {
         echo "同じ数字が揃いました。スプリットしますか？（Y / N）";
-        $userInput = trim(fgets(STDIN));
+        $userInput = strtolower(trim(fgets(STDIN)));
         echo $userInput . PHP_EOL;
         return $userInput;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace BlackJackGame;
+namespace BlackJack\Card;
 
 class Deck
 {
@@ -14,10 +14,9 @@ class Deck
     public function create(): array
     {
         for ($i = 1; $i <= 13; $i++) {
-            $this->trump[] = new Trump(SUIT_SPADE, $this->convertNumberToCardValue($i), $this->convertToCardScore($i));
-            $this->trump[] = new Trump(SUIT_DIAMOND, $this->convertNumberToCardValue($i), $this->convertToCardScore($i));
-            $this->trump[] = new Trump(SUIT_CLUB, $this->convertNumberToCardValue($i), $this->convertToCardScore($i));
-            $this->trump[] = new Trump(SUIT_HEART, $this->convertNumberToCardValue($i), $this->convertToCardScore($i));
+            foreach ([SUIT_SPADE, SUIT_DIAMOND, SUIT_CLUB, SUIT_HEART] as $suit) {
+                $this->trump[] = new Trump($suit, $this->convertNumberToCardValue($i), $this->convertToCardScore($i));
+            }
         }
         shuffle($this->trump);
         return $this->trump;
@@ -31,15 +30,10 @@ class Deck
      */
     private function convertNumberToCardValue(int $number): string
     {
-        if ($number == 1) {
-            return 'A';
-        } elseif ($number == 11) {
-            return 'J';
-        } elseif ($number == 12) {
-            return 'Q';
-        } elseif ($number == 13) {
-            return 'K';
-        }
+        if ($number == 1)  return 'A';
+        if ($number == 11) return 'J';
+        if ($number == 12) return 'Q';
+        if ($number == 13) return 'K';
         return (string)$number;
     }
 
@@ -51,10 +45,7 @@ class Deck
      */
     private function convertToCardScore(int $input): int
     {
-        if ($input >= 10) {
-            return 10;
-        } else {
-            return $input;
-        }
+        if ($input >= 10) return 10;
+        return $input;
     }
 }
